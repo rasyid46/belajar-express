@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 5000
 const bodyParser = require("body-parser");
+const TYPE = process.env.TYPE || 'PROD'
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -14,4 +15,4 @@ var profileRoute = require('./routes/profileRoute');
 var todoRoute = require('./routes/todoRoute');
 app.use('/profile', profileRoute);
 app.use('/todo', todoRoute);
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!  ${TYPE}`))

@@ -49,7 +49,7 @@ router.get('/list', async (req, res) => {
   const response = {
       statusCode : 200,
       error : "",
-      message : "List mongo", 
+      message : "List todo", 
       content : todos
   } 
   res.json(response);
@@ -60,6 +60,7 @@ router.get('/detail/(:id)', async (req, res) => {
   const checkDataTodos =await Models.Todos.findAll({where:{id:todo_id}})
   let statusCode = 200 
   let messageRes = "detail todo";
+  let dataTodo="";
   if(checkDataTodos.length==0){
        statusCode = 400
        messageRes="data not found"
@@ -98,7 +99,7 @@ router.put('/update/(:id)', async (req, res) => {
          statusCode = 400
          messageRes="data not found"
      }else{
-        checkDataTodos = await Models.Todos.update(req.body, {
+        await Models.Todos.update(req.body, {
                     where: {
                         id: todo_id
                     }
