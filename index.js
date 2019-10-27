@@ -12,5 +12,6 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 var profileRoute = require('./routes/profileRoute');
 app.use('/profile', profileRoute);
- 
+var todoRoute = require('./routes/todoRoute');
+app.use('/todo', todoRoute);
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
