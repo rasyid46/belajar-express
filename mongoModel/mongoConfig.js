@@ -1,7 +1,7 @@
 require('dotenv').config()
 const Mongoose = require("mongoose");
 const MONGODB_URI = process.env.MONGODB_URI
-Mongoose.connect(MONGODB_URI);
-// Mongoose.connect("mongodb://heroku_cmqlnzld:admin1234!@ds241097.mlab.com:41097/heroku_cmqlnzld?retryWrites=false");
+// Mongoose.connect(MONGODB_URI);
+Mongoose.connect("mongodb://semangka:17agustus@ds241097.mlab.com:39858/heroku_4p38v2k5?retryWrites=false");
 module.exports = Mongoose;
 
