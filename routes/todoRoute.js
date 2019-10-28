@@ -56,38 +56,51 @@ router.get('/list', async (req, res) => {
 })
 
 router.get('/detail/(:id)', async (req, res) => {
-  const todo_id =req.params.id;   
-  const checkDataTodos =await Models.Todos.findAll({where:{id:todo_id}})
-  let statusCode = 200 
-  let messageRes = "detail todo";
-  let dataTodo="";
-  if(checkDataTodos.length==0){
-       statusCode = 400
-       messageRes="data not found"
-   }else{
-      checkDataTodos = await PersonModel.findById(todo_id).exec();
-   }
-  const response = {
-      statusCode : statusCode,
-      error :messageRes,
-      message : messageRes, 
-      content : checkDataTodos
-  } 
-  res.status(statusCode).json(response);
+  try {
+    const todo_id =req.params.id;   
+    const checkDataTodos =await Models.Todos.findAll({where:{id:todo_id}})
+    let statusCode = 200 
+    let messageRes = "detail todo";
+    if(checkDataTodos.length==0){
+         statusCode = 400
+         messageRes="data not found"
+     }
+    const response = {
+        statusCode : statusCode,
+        error :messageRes,
+        message : messageRes, 
+        content : checkDataTodos
+    } 
+    res.status(statusCode).json(response);
+  } catch (error) {
+    console.log(error);
+  }
+ 
 })
 
 router.post('/create', async (req, res) => {
   // Do something here
-  
-  console.log(req.body)
-  const todo = await Models.Todos.create(req.body)
-  const response = {
-      statusCode : 200,
-      error : "",
-      message : "create todo", 
-      content : req.body
-  } 
-  res.json(response);
+  try {
+    console.log(req.body)
+      const todo = await Models.Todos.create(req.body)
+      const response = {
+          statusCode : 200,
+          error : "",
+          message : "create todo", 
+          content : todo
+      } 
+      res.json(response);
+  } catch (err) { 
+    const response = {
+      statusCode : 404,
+      error : err.name,
+      message : err.errors[0].message, 
+      content : err.errors
+    } 
+    res.status(404).json(response);
+    
+  }
+
 })
 
 router.put('/update/(:id)', async (req, res) => {  

@@ -1,10 +1,32 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Todos = sequelize.define('Todos', {
-    userId: DataTypes.INTEGER,
-    title: DataTypes.STRING,
+    userId: {
+      type:DataTypes.INTEGER,
+      validate: {
+        isNumeric : true
+      }
+    },
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        is: {
+          args: ["^[a-z]+$", "i"],
+          msg: "Allow only letter"
+        },
+        len: {
+          args: 3,
+          msg: "First Name must be atleast 3 characters in length"
+        },
+      }
+    }, 
     description: DataTypes.STRING,
-    dateActivity: DataTypes.DATE,
+    dateActivity: {
+      type :    DataTypes.DATEONLY,
+      validate:{
+        isDate : true
+      }
+    },
     completed: DataTypes.BOOLEAN
   }, {});
   Todos.associate = function(models) {
