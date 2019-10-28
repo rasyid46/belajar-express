@@ -27,19 +27,26 @@ router.get('/list', async (req, res) => {
 router.get('/detail/(:id)', async (req, res) => {
   const checkId = Mongoose.Types.ObjectId.isValid(req.params.id)
   let statusCode = 200
+  let message ="Detail Person"
   if(checkId){
     var person = await PersonModel.findById(req.params.id).exec();
+    if(!person){
+      statusCode=404
+      message="Data not found"
+    }
   }else{
      statusCode = 404
      var person = null
+     message ="Object Id invalid"
+     var person = ""
   }
   const response = {
     statusCode : statusCode,
-    error : "ID invalid",
-    message : "ID invalid", 
+    error : message,
+    message : message, 
     content : person
 } 
-res.json(response);
+res.status(statusCode).json(response);
   
 })
 
@@ -58,25 +65,51 @@ router.post('/create', async (req, res) => {
 })
 
 router.put('/update/(:id)', async (req, res) => { 
-  var person = await PersonModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  const checkId = Mongoose.Types.ObjectId.isValid(req.params.id)
+  let statusCode = 200
+  let message="Update Person"
+  if(checkId){
+    var person = await PersonModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if(!person){
+      statusCode=404
+      message="Data not found"
+    }
+  }else{
+    statusCode = 404;
+    var person = null
+    message="Object Id invalid"
+  }
   const response = {
-      statusCode : 200,
-      error : "",
-      message : "Update Person", 
+      statusCode : statusCode,
+      error : message,
+      message : message, 
       content : person
   } 
-  res.json(response);
+  res.status(statusCode).json(response);
 })
 
 
 router.get('/delete/(:id)', async (req, res) => {
-  var person = await PersonModel.findByIdAndDelete(req.params.id).exec();
+  const checkId = Mongoose.Types.ObjectId.isValid(req.params.id)
+  let statusCode = 200
+  let message="Delete Person"
+  if(checkId){
+    var person = await PersonModel.findByIdAndDelete(req.params.id).exec();
+    if(!person){
+      statusCode=404
+      message="Data not found"
+    }
+  }else{
+    statusCode=404
+    message="Object Id invalid"
+    var person = null
+  }
   const response = {
-      statusCode : 200,
-      error : "",
-      message : "Delete  Person", 
+      statusCode : statusCode,
+      error : message,
+      message : message, 
       content : person
   } 
-  res.json(response);
+  res.status(statusCode).json(response);
 })
 module.exports = router;
