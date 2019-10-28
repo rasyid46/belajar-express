@@ -25,14 +25,22 @@ router.get('/list', async (req, res) => {
 })
 
 router.get('/detail/(:id)', async (req, res) => {
-  var person = await PersonModel.findById(req.params.id).exec();
+  const checkId = Mongoose.Types.ObjectId.isValid(req.params.id)
+  let statusCode = 200
+  if(checkId){
+    var person = await PersonModel.findById(req.params.id).exec();
+  }else{
+     statusCode = 404
+     var person = null
+  }
   const response = {
-      statusCode : 200,
-      error : "",
-      message : "Detail Person", 
-      content : person
-  } 
-  res.json(response);
+    statusCode : statusCode,
+    error : "ID invalid",
+    message : "ID invalid", 
+    content : person
+} 
+res.json(response);
+  
 })
 
 router.post('/create', async (req, res) => {
