@@ -52,6 +52,21 @@ res.status(statusCode).json(response);
 
 router.post('/create', async (req, res) => {
   // Do something here
+  if (!req.body.firstname) {
+    res.status(400).json({
+      statusCode : 400,
+      error: "firstname parameter is required",
+      message: "firstname parameter is required"
+    });
+  }
+
+  if (!req.body.lastname) {
+    res.status(400).json({
+      statusCode : 400,
+      error: "lastname parameter is required",
+      message: "lastname parameter is required"
+    });
+  }
   console.log(req.body)
   var person = new PersonModel(req.body);
   var result = await person.save();
@@ -65,6 +80,21 @@ router.post('/create', async (req, res) => {
 })
 
 router.put('/update/(:id)', async (req, res) => { 
+  if (!req.body.firstname) {
+    res.status(400).json({
+      statusCode : 400,
+      error: "firstname parameter is required",
+      message: "firstname parameter is required"
+    });
+  }
+
+  if (!req.body.lastname) {
+    res.status(400).json({
+      statusCode : 400,
+      error: "lastname parameter is required",
+      message: "lastname parameter is required"
+    });
+  }
   const checkId = Mongoose.Types.ObjectId.isValid(req.params.id)
   let statusCode = 200
   let message="Update Person"
