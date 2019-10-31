@@ -106,27 +106,38 @@ router.post('/create', async (req, res) => {
 router.put('/update/(:id)', async (req, res) => {  
     const todo_id =req.params.id;       
     const checkDataTodos =await Models.Todos.findAll({where:{id:todo_id}})
-    let statusCode = 200 
-    let messageRes = "Todo has been updated";
-    if(checkDataTodos.length==0){
-         statusCode = 400
-         messageRes="data not found"
-     }else{
-        await Models.Todos.update(req.body, {
-                    where: {
-                        id: todo_id
-                    }
-                })             
-     } 
-
-
-    const response = {
-        statusCode : statusCode,
-        error : messageRes,
-        message : messageRes,
-        content : req.body
-    } 
-  res.status(statusCode).json(response);
+    try {
+      let statusCode = 200 
+      let messageRes = "Todo has been updated";
+      if(checkDataTodos.length==0){
+           statusCode = 400
+           messageRes="data not found"
+       }else{
+          await Models.Todos.update(req.body, {
+                      where: {
+                          id: todo_id
+                      }
+                  })             
+       } 
+  
+  
+      const response = {
+          statusCode : statusCode,
+          error : messageRes,
+          message : messageRes,
+          content : req.body
+      } 
+     res.status(statusCode).json(response);
+    } catch (err) {
+      const response = {
+        statusCode : 404,
+        error : err.name,
+        message : err.errors[0].message, 
+        content : err.errors
+      } 
+      res.status(404).json(response);
+    }
+   
 })
 router.get('/delete/(:id)', async (req, res) => {
     const todo_id =req.params.id;

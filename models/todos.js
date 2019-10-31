@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         len: {
           args: 3,
-          msg: "First Name must be atleast 3 characters in length"
+          msg: "title must be atleast 3 characters in length"
         },
       }
     }, 
