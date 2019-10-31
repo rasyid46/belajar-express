@@ -1,0 +1,12 @@
+bikin migrations
+
+https://sequelize.readthedocs.io/en/latest/docs/migrations/
+
+sequelize migration:generate --name changeColumDateActivity
+
+
+https://sequelize.org/master/manual/data-types.html
+
+sequelize db:migrate 
+
+sequelize db:migrate:undo 
