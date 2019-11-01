@@ -103,7 +103,8 @@ router.post('/create', async (req, res) => {
 })
 
 router.post('/update/(:id)', async (req, res) => {  
-    const todo_id =req.params.id;       
+    const todo_id =req.params.id;   
+    console.log(req.body);    
     const checkDataTodos =await Models.Todos.findAll({where:{id:todo_id}})
     try {
       let statusCode = 200 
