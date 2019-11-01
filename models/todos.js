@@ -10,10 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       validate: {
-        is: {
-          args: ["^[a-z]+$", "i"],
-          msg: "Allow only letter"
-        },
         len: {
           args: 3,
           msg: "title must be atleast 3 characters in length"
