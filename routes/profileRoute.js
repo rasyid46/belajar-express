@@ -15,11 +15,21 @@ router.get('/', function(req, res, next) {
 router.get('/list', async (req, res) => {
   // Do something here
   var person = await PersonModel.find().exec();
+  let newRespon = []
+  for (i = 0; i < person.length; i++) { 
+      console.log(person[i].firstname) 
+      newRespon[i] =  {
+        "Full Name": person[i].firstname+'  '+person[i].lastname,
+      }
+  }
+ 
+console.log(newRespon)
   const response = {
       statusCode : 200,
       error : "",
       message : "List Person", 
-      content : person
+      content : newRespon, 
+      content2 : person, 
   } 
   res.json(response);
 })

@@ -75,7 +75,6 @@ router.get('/detail/(:id)', async (req, res) => {
   } catch (error) {
     console.log(error);
   }
- 
 })
 
 router.post('/create', async (req, res) => {
@@ -103,7 +102,7 @@ router.post('/create', async (req, res) => {
 
 })
 
-router.put('/update/(:id)', async (req, res) => {  
+router.post('/update/(:id)', async (req, res) => {  
     const todo_id =req.params.id;       
     const checkDataTodos =await Models.Todos.findAll({where:{id:todo_id}})
     try {
