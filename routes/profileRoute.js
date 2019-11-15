@@ -2,10 +2,8 @@ var express = require('express');
 var router = express.Router(); 
 
 const Mongoose = require('../mongoModel/mongoConfig')
-const PersonModel = Mongoose.model("person", {
-    firstname: String,
-    lastname: String
-}); 
+const PersonModel = require('../mongoModel/personModel')
+ 
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -14,24 +12,48 @@ router.get('/', function(req, res, next) {
 
 router.get('/list', async (req, res) => {
   // Do something here
-  var person = await PersonModel.find().exec();
-  let newRespon = []
-  for (i = 0; i < person.length; i++) { 
-      console.log(person[i].firstname) 
-      newRespon[i] =  {
-        "Full Name": person[i].firstname+'  '+person[i].lastname,
-      }
+  try {
+    var person = await PersonModel.find().exec();
+    let newRespon = []
+    for (i = 0; i < person.length; i++) { 
+        console.log(person[i].firstname) 
+        newRespon[i] =  {
+          "Full Name": person[i].firstname+'  '+person[i].lastname,
+        }
+    }
+    const response = {
+        statusCode : 200,
+        error : "",
+        message : "List Person", 
+        count : person.length,  
+        content : newRespon,  
+    } 
+    res.json(response);
+  } catch (error) {
+    const response = {
+      statusCode : 404,
+      error : error,
+      message : error, 
+      content : error
+    } 
+    res.status(404).json(response);
   }
  
-console.log(newRespon)
+})
+
+
+router.get('/listPage', async (req, res) => {
+  // Do something here
+  var perPage = 10, page = Math.max(0, req.param('page'))
+  var person = await PersonModel.find().limit(perPage).skip(perPage * page);
   const response = {
-      statusCode : 200,
-      error : "",
-      message : "List Person", 
-      content : newRespon, 
-      content2 : person, 
-  } 
-  res.json(response);
+    statusCode : 200,
+    error : "",
+    message : "List Person", 
+    content : newRespon, 
+    content2 : person, 
+} 
+res.json(response);
 })
 
 router.get('/detail/(:id)', async (req, res) => {

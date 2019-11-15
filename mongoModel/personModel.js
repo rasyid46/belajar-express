@@ -1,9 +1,6 @@
-var Mongoose = require('./mongoConfig')
-
-const PersonModel = Mongoose.model("person", {
-    firstname: String,
-    lastname: String
-}); 
-
-module.export = PersonModel;
- 
+const Mongoose = require('./mongoConfig')
+var PersonModel = Mongoose.model('person', {
+    firstname: { type: String, required: true },
+    lastname:     { type: String, required: true }
+  })
+module.exports = PersonModel
